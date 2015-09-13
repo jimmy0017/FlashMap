@@ -1284,9 +1284,6 @@ p.nominalBounds = new cjs.Rectangle(0,0,800,500);
 
 	// timeline functions:
 	this.frame_0 = function() {
-		//import fl.transitions.Tween;
-		//import fl.transitions.easing.*;
-		//import flash.events.Event;
 		var gamestage = this;
 		var gamestate = "start";
 		var player = {};
@@ -1373,15 +1370,15 @@ p.nominalBounds = new cjs.Rectangle(0,0,800,500);
 					player.scaleY = -1;
 				}
 		
-				//player.x = evt.stageX;
+				player.x = evt.stageX;
 				player.y = evt.stageY;
 				//		new Tween(player, "_x", Strong.easeIn, player.x, evt.stageX, 2, true);
 			//	var tweenX: Tween = new Tween(player, "x", Strong.easeIn, player.x, evt.stageX, 2, true);
-				createjs.TweenJS.get(player, {override:true}).to({x:evt.stageX});
+				//createjs.TweenJS.get(player, {override:true}).to({x:evt.stageX});
 				
-				if(player.hitTestObject(item3)){
+			/*	if(player.hitTestObject(item3)){
 					gamestage.item3.visible = false;
-				}
+				}*/
 		
 			}
 		
@@ -1391,15 +1388,6 @@ p.nominalBounds = new cjs.Rectangle(0,0,800,500);
 
 	// actions tween:
 	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1));
-
-	// Actions
-	this.text = new cjs.Text(".get(target, {override:true}).to({x:100});", "italic 39px 'Zapfino'");
-	this.text.textAlign = "center";
-	this.text.lineHeight = 41;
-	this.text.lineWidth = 144;
-	this.text.setTransform(398,176);
-
-	this.timeline.addTween(cjs.Tween.get(this.text).wait(1));
 
 	// Item3
 	this.item3 = new lib.Item3();
