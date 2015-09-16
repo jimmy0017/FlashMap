@@ -9,6 +9,10 @@ lib.properties = {
 	fps: 24,
 	color: "#FFFFFF",
 	manifest: [
+		{src:"images/Bitmap3.jpg", id:"Bitmap3"},
+		{src:"images/GameMap.jpg", id:"GameMap"},
+		{src:"images/ScreenShot20150910at115447.png", id:"ScreenShot20150910at115447"},
+		{src:"images/ScreenShot20150910at220211.png", id:"ScreenShot20150910at220211"},
 		{src:"sounds/bgm.mp3", id:"bgm"},
 		{src:"sounds/done.mp3", id:"done"},
 		{src:"sounds/pickup.mp3", id:"pickup"}
@@ -22,31 +26,27 @@ lib.properties = {
 
 
 (lib.Bitmap3 = function() {
-	this.spriteSheet = ss["FlashMap_atlas_"];
-	this.gotoAndStop(0);
-}).prototype = p = new cjs.Sprite();
-
+	this.initialize(img.Bitmap3);
+}).prototype = p = new cjs.Bitmap();
+p.nominalBounds = new cjs.Rectangle(0,0,188,146);
 
 
 (lib.GameMap = function() {
-	this.spriteSheet = ss["FlashMap_atlas_"];
-	this.gotoAndStop(1);
-}).prototype = p = new cjs.Sprite();
-
+	this.initialize(img.GameMap);
+}).prototype = p = new cjs.Bitmap();
+p.nominalBounds = new cjs.Rectangle(0,0,1485,936);
 
 
 (lib.ScreenShot20150910at115447 = function() {
-	this.spriteSheet = ss["FlashMap_atlas_"];
-	this.gotoAndStop(2);
-}).prototype = p = new cjs.Sprite();
-
+	this.initialize(img.ScreenShot20150910at115447);
+}).prototype = p = new cjs.Bitmap();
+p.nominalBounds = new cjs.Rectangle(0,0,1980,920);
 
 
 (lib.ScreenShot20150910at220211 = function() {
-	this.spriteSheet = ss["FlashMap_atlas_"];
-	this.gotoAndStop(3);
-}).prototype = p = new cjs.Sprite();
-
+	this.initialize(img.ScreenShot20150910at220211);
+}).prototype = p = new cjs.Bitmap();
+p.nominalBounds = new cjs.Rectangle(0,0,428,528);
 
 
 (lib.game_map = function() {
@@ -59,6 +59,29 @@ lib.properties = {
 	this.addChild(this.instance);
 }).prototype = p = new cjs.Container();
 p.nominalBounds = new cjs.Rectangle(0,0,815,558.3);
+
+
+(lib.button1 = function() {
+	this.initialize();
+
+	// Layer 1
+	this.instance = new lib.Bitmap3();
+
+	this.addChild(this.instance);
+}).prototype = p = new cjs.Container();
+p.nominalBounds = new cjs.Rectangle(0,0,188,146);
+
+
+(lib.bay_map = function() {
+	this.initialize();
+
+	// Layer 1
+	this.instance = new lib.ScreenShot20150910at115447();
+	this.instance.setTransform(0,0,0.536,0.536);
+
+	this.addChild(this.instance);
+}).prototype = p = new cjs.Container();
+p.nominalBounds = new cjs.Rectangle(0,0,1060.8,492.9);
 
 
 (lib.StartScreen = function() {
@@ -190,43 +213,6 @@ p.nominalBounds = new cjs.Rectangle(-125.3,-125.9,248.7,250.4);
 	this.addChild(this.shape_1,this.shape);
 }).prototype = p = new cjs.Container();
 p.nominalBounds = new cjs.Rectangle(-35.4,-44.9,69.5,91.9);
-
-
-(lib.Botton1 = function(mode,startPosition,loop) {
-	this.initialize(mode,startPosition,loop,{});
-
-	// Layer 1
-	this.instance = new lib.Bitmap3();
-	this.instance.setTransform(-1273.9,-71);
-
-	this.instance_1 = new lib.Bitmap3();
-	this.instance_1.setTransform(-1273.9,-71);
-
-	this.instance_2 = new lib.Bitmap3();
-	this.instance_2.setTransform(-1273.9,-73);
-
-	this.text = new cjs.Text("Bay", "italic 39px 'Zapfino'", "#FFEC98");
-	this.text.textAlign = "center";
-	this.text.lineHeight = 41;
-	this.text.lineWidth = 165;
-	this.text.setTransform(-1175.4,45);
-
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance_2},{t:this.instance_1},{t:this.instance,p:{scaleX:1,scaleY:1,x:-1273.9,y:-71}}]}).to({state:[{t:this.instance_2},{t:this.instance_1},{t:this.instance,p:{scaleX:1.411,scaleY:1.411,x:-1312.6,y:-101}},{t:this.text}]},1).to({state:[{t:this.instance_2},{t:this.instance_1},{t:this.instance,p:{scaleX:1,scaleY:1,x:-1273.9,y:-71}}]},1).to({state:[{t:this.instance_2},{t:this.instance_1},{t:this.instance,p:{scaleX:1,scaleY:1,x:-1273.9,y:-71}}]},1).wait(1));
-
-}).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(-1273.9,-73,188,148);
-
-
-(lib.bay_map = function() {
-	this.initialize();
-
-	// Layer 1
-	this.instance = new lib.ScreenShot20150910at115447();
-	this.instance.setTransform(0,0,0.536,0.536);
-
-	this.addChild(this.instance);
-}).prototype = p = new cjs.Container();
-p.nominalBounds = new cjs.Rectangle(0,0,1060.8,492.9);
 
 
 (lib.Sky = function() {
@@ -1287,13 +1273,18 @@ p.nominalBounds = new cjs.Rectangle(0,0,800,500);
 		var gamestage = this;
 		var gamestate = "start";
 		var player = {};
+		var mx = 0;
+		var my = 0;
+		
+		createjs.Ticker.on("tick", handleTick, gamestate);
+		
 		
 		
 		document.body.style.cursor = "pointer";
 		gamestage.over_screen.visible = false;
 		
 		gamestage.game_map.visible = false;
-		gamestage.botton1.visible = false;
+		gamestage.button1.visible = false;
 		
 		gamestage.bay_map.visible = false;
 		gamestage.item3.visible = false;
@@ -1311,12 +1302,12 @@ p.nominalBounds = new cjs.Rectangle(0,0,800,500);
 			//createjs.Sound.play("bgm", false, 0, 0, -1, 1);
 		
 			gamestage.game_map.visible = true;
-			gamestage.botton1.visible = true;
+			gamestage.button1.visible = true;
 		
 			gamestage.start_screen.visible = false;
 			gamestage.over_screen.visible = false;
 			gamestage.begin_bg.visible = false;
-			
+		
 			gamestage.item3.visible = false;
 			document.body.style.cursor = "pointer";
 		}
@@ -1330,17 +1321,17 @@ p.nominalBounds = new cjs.Rectangle(0,0,800,500);
 		}
 		
 		
-		gamestage.botton1.addEventListener("click", button1Clicked);
+		gamestage.button1.addEventListener("click", button1Clicked);
 		function button1Clicked() {
 			gamestage.bay_map.visible = true;
 			gamestage.item3.visible = true;
 		
 			gamestage.game_map.visible = false;
-			gamestage.botton1.visible = false;
+			gamestage.button1.visible = false;
 		
 			gamestate = "playing";
 			generatePlayer();
-			
+		
 		}
 		
 		
@@ -1356,8 +1347,8 @@ p.nominalBounds = new cjs.Rectangle(0,0,800,500);
 				var px = player.x;
 				var py = player.y;
 		
-				var mx = evt.stageX;
-				var my = evt.stageY;
+				mx = evt.stageX;
+				my = evt.stageY;
 				if (mx < px) {
 					player.scaleX = 1;
 				} else if (mx >= px) {
@@ -1370,19 +1361,85 @@ p.nominalBounds = new cjs.Rectangle(0,0,800,500);
 					player.scaleY = -1;
 				}
 		
-				player.x = evt.stageX;
-				player.y = evt.stageY;
-				//		new Tween(player, "_x", Strong.easeIn, player.x, evt.stageX, 2, true);
-			//	var tweenX: Tween = new Tween(player, "x", Strong.easeIn, player.x, evt.stageX, 2, true);
-				//createjs.TweenJS.get(player, {override:true}).to({x:evt.stageX});
+				/*	var sx = (mx-px)/10;
+				var sy = (my-py)/10;
 				
-			/*	if(player.hitTestObject(item3)){
+				while (!((player.x == evt.stageX) && (player.y == evt.stageY))) {
+		
+					myTimer = setInterval(move,1000);
+					
+					
+				}
+				*/
+		
+				/*for (var i = 0; i < 10000; i++) {
+					if (player.x != evt.stageX) {
+						player.x -= player.scaleX;
+					}
+					if (player.y != evt.stageY) {
+						player.y -= player.scaleY;
+					}
+				}*/
+				/*
+				var xcondiiton = false;
+				var ycondiiton = false;
+				var playercondition = true;
+				while (playercondition) {
+					if (player.x != evt.stageX) {
+						player.x -= player.scaleX;
+						xcondiiton = false;
+					} else {
+						xcondiiton = true;
+					}
+		
+					if (player.y != evt.stageY) {
+						player.y -= player.scaleY;
+						ycondiiton = false;
+					} else {
+						ycondiiton = true;
+		
+					}
+		
+					if (xcondition) {
+						if (ycondition) {
+							playercondition = false;
+						} else {
+							playercondition = true;
+						}
+					} else {
+						playercondition = true;
+					}
+				}
+				*/
+		
+				//player.x = evt.stageX;
+				//player.y = evt.stageY;
+		
+		
+		
+				/*	if(player.hitTestObject(item3)){
 					gamestage.item3.visible = false;
 				}*/
 		
 			}
 		
+		
 		});
+		
+		
+		function handleTick(event) {
+			if (gamestate == "playing") {
+				for (var i = 0; i < 5; i++) {
+					if (player.x != mx) {
+						player.x -= player.scaleX;
+					}
+					if (player.y != my) {
+						player.y -= player.scaleY;
+					}
+				}
+			}
+		
+		}
 		playSound("bgm");
 	}
 
@@ -1402,11 +1459,10 @@ p.nominalBounds = new cjs.Rectangle(0,0,800,500);
 	this.timeline.addTween(cjs.Tween.get(this.bay_map).wait(1));
 
 	// Botton1
-	this.botton1 = new lib.Botton1();
-	this.botton1.setTransform(569.1,424.1,0.359,0.63);
-	new cjs.ButtonHelper(this.botton1, 0, 1, 2, false, new lib.Botton1(), 3);
+	this.button1 = new lib.button1();
+	this.button1.setTransform(157,424,1,1,0,0,0,94,73);
 
-	this.timeline.addTween(cjs.Tween.get(this.botton1).wait(1));
+	this.timeline.addTween(cjs.Tween.get(this.button1).wait(1));
 
 	// game_map
 	this.game_map = new lib.game_map();
