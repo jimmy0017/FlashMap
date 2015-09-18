@@ -1268,8 +1268,8 @@ p.nominalBounds = new cjs.Rectangle(0,0,800,500);
 		var gamestage = this;
 		var gamestate = "start";
 		var player = {};
-		var mx = 150;
-		var my = 150;
+		var mx = 450;
+		var my = 450;
 		
 		createjs.Ticker.on("tick", handleTick, gamestate);
 		
@@ -1293,8 +1293,7 @@ p.nominalBounds = new cjs.Rectangle(0,0,800,500);
 		
 		gamestage.over_screen.addEventListener("click", restart);
 		function restart() {
-			mx = 150;
-			my = 150;
+		
 			gamestate = "start";
 			document.body.style.cursor = "pointer";
 			gamestage.over_screen.visible = false;
@@ -1346,8 +1345,12 @@ p.nominalBounds = new cjs.Rectangle(0,0,800,500);
 		
 		function generatePlayer() {
 			player = new lib.player();
-			player.y = 450;
+			player.x=450;
+			player.y=450;
+		
 			gamestage.addChild(player);
+			mx = player.x;
+			my = player.y;
 		}
 		
 		
