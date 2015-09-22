@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="videoApp">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lynda.com | HTML5 Canvas and WebGL in Flash Professional CC</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/fl.css">
+    <script src="/js/jquery-2.1.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    
+    <script src="http://code.createjs.com/easeljs-0.8.1.min.js"></script>
+    <script src="http://code.createjs.com/tweenjs-0.6.1.min.js"></script>
+    <script src="http://code.createjs.com/movieclip-0.8.1.min.js"></script>
+    <script src="http://code.createjs.com/preloadjs-0.6.1.min.js"></script>
+    <script src="http://code.createjs.com/soundjs-0.6.1.min.js"></script>
+    <script src="WebGame.js"></script>
+
+    <script>
+    var canvas, stage, exportRoot;
+
+    function init() {
+        canvas = document.getElementById("canvas");
+        images = images||{};
+
+        var loader = new createjs.LoadQueue(false);
+        loader.installPlugin(createjs.Sound);
+        loader.addEventListener("fileload", handleFileLoad);
+        loader.addEventListener("complete", handleComplete);
+        loader.loadManifest(lib.properties.manifest);
+    }
+
+    function handleFileLoad(evt) {
+        if (evt.item.type == "image") { images[evt.item.id] = evt.result; }
+    }
+
+    function handleComplete(evt) {
+        exportRoot = new lib.WebGame();
+
+        stage = new createjs.Stage(canvas);
+        stage.addChild(exportRoot);
+        stage.update();
+
+        createjs.Ticker.setFPS(lib.properties.fps);
+        createjs.Ticker.addEventListener("tick", stage);
+    }
+
+    function playSound(id, loop) {
+        createjs.Sound.play(id, createjs.Sound.INTERRUPT_EARLY, 0, 0, loop);
+    }
+    </script>
+    
+</head>
+<body onload="init();">
+    
+    <div class="container-fluid text-center" style="padding-left:10%;padding-right:10%">
+        <h1>Lynda.com | HTML5 Canvas and WebGL in Flash Professional CC</h1>
+        
+        <canvas id="canvas" width="800" height="500" style="background-color:#000000"></canvas>
+        
+    </div>
+    
+</body>
+</html>
