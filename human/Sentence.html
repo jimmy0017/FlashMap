@@ -39,7 +39,6 @@
 			    cell.innerHTML = number;
 			    cell = row.insertCell(1);
 			    cell.innerHTML = rowsentence;
-			    cell = row.insertCell(2);
 			}
 			
 			query.find({
@@ -50,7 +49,7 @@
 			    // Do something with the returned Parse.Object values
 			    for (var i = 0; i < results.length; i++) {
 			      var object = results[i];
-			      CreateRow(i+1,object.get('Sentence'));
+			      CreateRow(i+1,object.get('word'));
 			    }
 			  },
 			  error: function(error) {
