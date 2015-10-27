@@ -21,7 +21,7 @@
   <div id="main">
     <h1>Submit Word</h1>
 
-	<form id="Word Submit" onsubmit="SubmitParse()">
+	<form id="WordForm" onsubmit="SubmitParse()">
 		<div class="form-group">
 	    		<label for="word">Sentence:</label>
 	    		<input type="text" class="form-control" id="word" placeholder="Good Personality">
@@ -34,7 +34,7 @@
     </div>
 
     <div style="display:none" class="success">
-      <p>Congratulation! You successfully signed up.</p>
+      <p>Congratulation! You successfully signed up.<br>You can submit again.</p>
     </div>
   </div>
 
@@ -43,9 +43,14 @@
     var Sentence = Parse.Object.extend("Sentence");
     var NewWord = new Sentence();
 	
+	 $('#WordForm').submit(function () {
+		 SubmitParse();
+		 return false;
+	});
+	
 	function SubmitParse() {
 	  	var word = document.getElementById("word").value;
-	    	NewSignUpSheet.save({word: word}, {
+	    	NewWord.save({word: word}, {
 	    		success: function(object) {
 	        		$(".success").show();
 	      		},
