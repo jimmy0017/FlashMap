@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	
+	<title>Input Your Word</title>
+	<meta name="description" content="Submit Word">
+	<meta name="viewport" content="width=device-width">
+<!--	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/styles.css">-->
+	
+	<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="js/parse-latest.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  
+  <div id="main">
+    <h1>Submit Word</h1>
+
+	<form id="Word Submit" onsubmit="SubmitParse()">
+		<div class="form-group">
+	    		<label for="word">Sentence:</label>
+	    		<input type="text" class="form-control" id="word" placeholder="Good Personality">
+  		</div>
+		<button type="submit" id="signUpButton" class="btn btn-default">Submit</button>
+	</form>
+	
+    <div style="display:none" class="error">
+      Looks like there was a problem with save. Try again.
+    </div>
+
+    <div style="display:none" class="success">
+      <p>Congratulation! You successfully signed up.</p>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    Parse.initialize("NEoej6XqVoZUX0yHswIjwBtX3eWre9NBfjjJETrQ", "j2spCoWNrjS1XCD2aknH7Uo7QnTG7ijQTZfg0xkP");
+    var Sentence = Parse.Object.extend("Sentence");
+    var NewWord = new Sentence();
+	
+	function SubmitParse() {
+	  	var word = document.getElementById("word").value;
+	    	NewSignUpSheet.save({word: word}, {
+	    		success: function(object) {
+	        		$(".success").show();
+	      		},
+	      		error: function(model, error) {
+	        		$(".error").show();
+	      		}
+	    	});
+	};
+
+	
+  </script>
+</body>
+
+</html>
