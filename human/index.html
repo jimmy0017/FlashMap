@@ -1,67 +1,70 @@
 <!doctype html>
 <html>
-<head>
-	<meta charset="utf-8">
-	
-	<title>Showing Sentences</title>
-	<meta name="description" content="Submit Word">
-	<meta name="viewport" content="width=device-width">
-<!--	<link rel="stylesheet" href="css/reset.css">
-	<link rel="stylesheet" href="css/styles.css">-->
-	
-	<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
-	<script type="text/javascript" src="js/parse-latest.js"></script>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-</head>
 
-<body>
-  
-  <div id="main">
-    
-  </div>
+	<head>
+		<meta charset="utf-8">
 
-  <script type="text/javascript">
-    Parse.initialize("NEoej6XqVoZUX0yHswIjwBtX3eWre9NBfjjJETrQ", "j2spCoWNrjS1XCD2aknH7Uo7QnTG7ijQTZfg0xkP");
-    var Sentence = Parse.Object.extend("Sentence");
-  	var query = new Parse.Query(Sentence);
-	query.find({
-			  success: function(results) {
-			  	var maindiv = document.getElementById("main");
-			    //alert("Successfully retrieved " + results.length + " sign up people.");
-			    // Do something with the returned Parse.Object values
-			    for (var i = 0; i < results.length; i++) {
-			      var object = results[i];
-			       var newSentence = document.createElement("input");
-				  newSentence.type="text";
-				  newSentence.name="sentence_"+i+1;
-				  newSentence.id=i+1;     
-				  newSentence.value=object.get('Sentence');
-				  maindiv.appendChild(newSentence);
-				  maindiv.appendChild(document.createElement("br"));
-			    }
-			  },
-			  error: function(error) {
-			    alert("Error: " + error.code + " " + error.message);
-			  }
+		<title>Showing Sentences</title>
+		<meta name="description" content="Submit Word">
+		<meta name="viewport" content="width=device-width">
+		<link rel="stylesheet" href="js/jquery-ui.css" />
+		<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="js/parse-latest.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/jquery-ui.js"></script>
+		<style type="text/css">
+			.draggable {
+				width: 100px;
+				height: 20px;
+				padding: 5px;
+				margin: 5px;
+				-moz-user-select: none;
+				
+			}
+		</style>
+	</head>
+
+	<body>
+		<div style="width: 100%; display: table; margin-left: 5%;">
+			<div style="display: table-row">
+				<div style="width: 30%; display: table-cell;" id="main">
+
+				</div>
+				<div style="display: table-cell;" id="pichuman">
+					<img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png">
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			Parse.initialize("NEoej6XqVoZUX0yHswIjwBtX3eWre9NBfjjJETrQ", "j2spCoWNrjS1XCD2aknH7Uo7QnTG7ijQTZfg0xkP");
+			var Sentence = Parse.Object.extend("Sentence");
+			var query = new Parse.Query(Sentence);
+			query.find({
+				success: function(results) {
+					var maindiv = document.getElementById("main");
+					//alert("Successfully retrieved " + results.length + " sign up people.");
+					// Do something with the returned Parse.Object values
+					for (var i = 0; i < results.length; i++) {
+						var object = results[i];
+						var newSentence = document.createElement("div");
+						newSentence.name = "sentence_" + (i + 1);
+						newSentence.id = "sentence_" + (i + 1);
+						newSentence.innerHTML = object.get("word");
+						newSentence.className = "draggable";
+						//$(newSentence).draggable();
+						maindiv.appendChild(newSentence);
+						$(newSentence).draggable();
+						$(newSentence).css('cursor', 'pointer');
+					}
+				},
+				error: function(error) {
+					alert("Error: " + error.code + " " + error.message);
+				}
 			});
-	for (var i=0;i<count;i++){ 
-
-		  var username = document.createElement("input");
-		  username.type="text";
-		  username.name="name_"+i;
-		  username.id=i;//给这个input赋予id值     
-		  username.value="动态创建"+i;
-		  inputs.appendChild(username);
-		  inputs.appendChild(document.createElement("br"));
-		  //提交信息直接用表单提交，本来内容就是循环在Form里的，你应该懂吧
-	
-	  }   
-
-
-	
-  </script>
-</body>
+			document.getElementsByName("sentence_1").innerHTML = "Bold";
+		</script>
+	</body>
 
 </html>
