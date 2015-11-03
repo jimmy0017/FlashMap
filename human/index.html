@@ -21,22 +21,25 @@
 				padding: 5px;
 				margin: 5px;
 				-moz-user-select: none;
-				
 			}
 		</style>
 	</head>
 
 	<body>
-		<div style="width: 100%; display: table; margin-left: 5%;">
-			<div style="display: table-row">
-				<div style="width: 30%; display: table-cell;" id="main">
-
-				</div>
-				<div style="display: table-cell;" id="pichuman">
-					<img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png">
-				</div>
-			</div>
-		</div>
+		<table style="width: 100%; margin-left: 5%;">
+			<tr>
+				<td>
+					<div id="main">
+						<h1>Word Bank</h1>
+					</div>
+				</td>
+				<td>
+					<div id="pichuman">
+						<img src="img/Handout_person.png" width="400">
+					</div>
+				</td>
+			</tr>
+		</table>
 		<script type="text/javascript">
 			Parse.initialize("NEoej6XqVoZUX0yHswIjwBtX3eWre9NBfjjJETrQ", "j2spCoWNrjS1XCD2aknH7Uo7QnTG7ijQTZfg0xkP");
 			var Sentence = Parse.Object.extend("Sentence");
@@ -48,12 +51,11 @@
 					// Do something with the returned Parse.Object values
 					for (var i = 0; i < results.length; i++) {
 						var object = results[i];
-						var newSentence = document.createElement("div");
+						var newSentence = document.createElement("h2");
 						newSentence.name = "sentence_" + (i + 1);
 						newSentence.id = "sentence_" + (i + 1);
 						newSentence.innerHTML = object.get("word");
 						newSentence.className = "draggable";
-						//$(newSentence).draggable();
 						maindiv.appendChild(newSentence);
 						$(newSentence).draggable();
 						$(newSentence).css('cursor', 'pointer');
