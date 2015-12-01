@@ -52,6 +52,10 @@
 			if (currentUser) {
 				document.getElementById("username").value = currentUser.get("username");
 				document.getElementById("emailInput").value = currentUser.get("email");
+				document.getElementById("username").disabled=true;
+				document.getElementById("emailInput").disabled=true;
+				document.getElementById("password").disabled=true;
+				document.getElementById("signUpButton").disabled=true;
 			} else {
 				alert("You do not have permission to view this!<br>You will be redirect to home page.");
 				window.location.replace("index.html");
