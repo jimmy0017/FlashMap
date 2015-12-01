@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Youth Leadership - Fanning Login Page</title>
+		<meta name="description" content="Registration Page">
+		<meta name="viewport" content="width=device-width">
+
+		<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="js/parse-latest.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/HeaderFooter.js"></script>
+		<style type="text/css">
+			body {
+				padding-top: 40px;
+				padding-bottom: 40px;
+				background-color: #eee;
+			}
+			.form-signin {
+				max-width: 330px;
+				padding: 15px;
+				margin: 0 auto;
+			}
+			.form-signin .form-signin-heading,
+			.form-signin .checkbox {
+				margin-bottom: 10px;
+			}
+			.form-signin .checkbox {
+				font-weight: normal;
+			}
+			.form-signin .form-control {
+				position: relative;
+				height: auto;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				padding: 10px;
+				font-size: 16px;
+			}
+			.form-signin .form-control:focus {
+				z-index: 2;
+			}
+			.form-signin input[type="email"] {
+				margin-bottom: -1px;
+				border-bottom-right-radius: 0;
+				border-bottom-left-radius: 0;
+			}
+			.form-signin input[type="password"] {
+				margin-bottom: 10px;
+				border-top-left-radius: 0;
+				border-top-right-radius: 0;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="main">
+			
+
+			<form class="form-signin" id="LoginForm" method="post">
+				<h1 class="form-signin-heading">UGACSCF Login </h1>
+				<h2 class="form-signin-heading">Please login in</h2>
+				<div class="form-group">
+					<label for="username">Username:</label>
+					<input type="text" class="form-control" id="usernameinput" placeholder="myusername">
+				</div>
+				<div class="form-group">
+					<label for="password">Password:</label>
+					<input type="password" class="form-control" id="passwordinput" placeholder="******">
+				</div>
+				<button type="submit" id="signUpButton" class="btn btn-lg btn-primary btn-block">Login</button>
+			</form>
+
+			<div style="display:none" class="error">
+				Looks like there was a problem with login. Try again. If this occur again, please email <a href="mailto:jlin@ugacscf.org">jlin@ugacscf.org</a>
+			</div>
+
+			<div style="display:none" id="successbox" class="success">
+				<p>Congratulation! You successfully logged in.</p>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			Parse.initialize("IgZBiGwhxqw3BNtyFrRVIb2JmYIvw0UdjnMIeSkm", "ry0ri2o12JePWn5pktEhighV4ZsK7C7mgelHKUDc");
+			 //$(".nav").find("login").AddClass("active");
+			var currentUser = Parse.User.current();
+			if (currentUser) {
+				//document.getElementById("userbox").innerHTML = currentUser.get("username");
+				alert("You already signed in!<br>You will be redirect to home page.");
+				window.location.replace("index.html");
+			} else {}
+			$('#LoginForm').submit(function(event) {
+				event.preventDefault();
+				SubmitParse();
+			});
+
+			function SubmitParse() {
+				var inputusername = document.getElementById("usernameinput").value;
+				var inputpassword = document.getElementById("passwordinput").value;
+				Parse.User.logIn(inputusername, inputpassword, {
+					success: function(user) {
+						alert("Success! You will be redirect to main page.");
+						window.location.replace("index.html");
+					},
+					error: function(user, error) {
+						// Show the error message somewhere and let the user try again.
+						alert("Error: " + error.code + " " + error.message + "username:" + inputusername + "password" + inputpassword);
+					}
+				});
+			};
+		</script>
+	</body>
+
+</html>

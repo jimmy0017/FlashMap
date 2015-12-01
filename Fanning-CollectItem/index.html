@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Showing Sentences</title>
+		<meta name="description" content="Submit Word">
+		<meta name="viewport" content="width=device-width">
+		<link rel="stylesheet" href="js/jquery-ui.css" />
+		<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="js/parse-latest.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/jquery-ui.js"></script>
+		<script type="text/javascript" src="js/jquery-ui-touch-pen.js"></script>
+		<style type="text/css">
+			dialog {
+				position: fixed;
+				font-family: Arial, Helvetica, sans-serif;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				z-index: 99999;
+				opacity: 1;
+			}
+			#questionDiv div {
+				display: inline;
+			}
+		}
+		</style>
+
+	</head>
+
+	<body>
+		<h1 style="margin-left: 30%;">Choose any item!</h1>
+		<table style="width: 100%; margin-left: 5%;">
+			<tr>
+				<td>
+					<h4>Choice:</h4>
+					<div id="choiceDiv"></div>
+				</td>
+				<td>
+					<h4>Archieve:</h4>
+					<div id="archievedDiv"></div>
+				</td>
+			</tr>
+		</table>
+
+		<dialog id="window">
+			<h3>Question</h3>
+			<p id="questionDetail"></p>
+			<div id="questionDiv"></div>
+			<button id="exit">Close Dialog
+		</dialog>
+
+		<script type="text/javascript">
+			var choiceLength = 6;
+			var dialog = document.getElementById('window');
+			document.getElementById('exit').onclick = function() {
+				dialog.close();
+			};
+			for (var i = 1; i <= choiceLength; i++) {
+				CreateChoice(i);
+			}
+
+			function CreateChoice(i) {
+				var newChoice = document.createElement("div");
+				newChoice.name = "choice_" + (i);
+				newChoice.id = "choice_" + (i);
+				newChoice.innerHTML = "<img src='img/choice" + i + ".png' width='100' length='100'  >"; //onclick=\"displayQuestion('"+ i + "')\
+				choiceDiv.appendChild(newChoice);
+				$(newChoice).css('cursor', 'pointer');
+				$(newChoice).on("click", function(e) {
+					e.preventDefault();
+					CreateQuestion(i);
+					dialog.show();
+					//alert('You Clicked Me');
+				});
+			}
+
+			function CreateQuestion(i) {
+				document.getElementById("questionDetail").innerText = "Who wrote the Declaration of the Independence? (click on their image)";
+				$('#questionDiv').empty();
+				for (var j = 1; j <= 4; j++) {
+					var newOption = document.createElement("div");
+					newOption.name = "option_" + (j);
+					newOption.id = "option_" + (j);
+					newOption.innerHTML = "<img src='img/option" + j + ".png' width='100' length='100'  >"; //onclick=\"displayQuestion('"+ i + "')\
+					questionDiv.appendChild(newOption);
+					$(newOption).css('cursor', 'pointer');
+					if (j == 3) {
+						$(newOption).on("click", function(e) {
+							e.preventDefault();
+							alert('Correct! Thomas Jefferson was the author of the Declaration of Independence.');
+							$('#archievedDiv').append($('#choice_' + i));
+							//archievedDiv.appendChild( $('#choice_'+i) );
+							dialog.close();
+							$('#choiceDiv').remove($('#choice_' + i));
+							//$('#choice_'+i).remove();
+							$('#choice_' + i).unbind("click");
+						});
+					} else {
+						$(newOption).on("click", function(e) {
+							e.preventDefault();
+							alert('Incorrect, that’s not quite it. Try again!');
+						});
+					}
+				}
+			}
+		</script>
+	</body>
+
+</html>

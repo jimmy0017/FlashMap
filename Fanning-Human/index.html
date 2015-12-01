@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Showing Sentences</title>
+		<meta name="description" content="Submit Word">
+		<meta name="viewport" content="width=device-width">
+		<link rel="stylesheet" href="js/jquery-ui.css" />
+		<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="js/parse-latest.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/jquery-ui.js"></script>
+		<script type="text/javascript" src="js/jquery-ui-touch-pen.js"></script>
+		<style type="text/css">
+			.draggable {
+				width: 100px;
+				height: 20px;
+				padding: 5px;
+				margin: 5px;
+				-moz-user-select: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<table style="width: 100%; margin-left: 5%;">
+			<tr>
+				<td>
+					<div id="main">
+						<h1>Word Bank</h1>
+						<h3>Total Sentence: <span class="label label-default" id="totalNumber">Null</span></h3>
+					</div>
+				</td>
+				<td>
+					<div id="pichuman">
+						<img src="img/Handout_person.png" width="400">
+					</div>
+				</td>
+			</tr>
+		</table>
+		<script type="text/javascript">
+			Parse.initialize("NEoej6XqVoZUX0yHswIjwBtX3eWre9NBfjjJETrQ", "j2spCoWNrjS1XCD2aknH7Uo7QnTG7ijQTZfg0xkP");
+			var Sentence = Parse.Object.extend("Sentence");
+			var query = new Parse.Query(Sentence);
+			query.find({
+				success: function(results) {
+					//alert("Successfully retrieved " + results.length + " sign up people.");
+					// Do something with the returned Parse.Object values
+					document.getElementById("totalNumber").innerHTML = results.length;
+					for (var i = 0; i < results.length; i++) {
+						var object = results[i];
+						CreateSentence(i, object.get("word"));
+					}
+				},
+				error: function(error) {
+					alert("Error: " + error.code + " " + error.message);
+				}
+			});
+			var maindiv = document.getElementById("main");
+
+			function CreateSentence(i, word) {
+				var newSentence = document.createElement("h2");
+				newSentence.name = "sentence_" + (i + 1);
+				newSentence.id = "sentence_" + (i + 1);
+				newSentence.innerHTML = word;
+				newSentence.className = "draggable";
+				maindiv.appendChild(newSentence);
+				$(newSentence).draggable();
+				$(newSentence).css('cursor', 'pointer');
+			}
+
+			function CheckNewItem() {
+				query.find({
+					success: function(results) {
+						if (document.getElementById("totalNumber").innerHTML != results.length) {
+							oldlength = document.getElementById("totalNumber").innerHTML;
+							document.getElementById("totalNumber").innerHTML = results.length;
+							for (var i = oldlength; i < results.length; i++) {
+								var object = results[i];
+								CreateSentence(i, object.get('word'));
+							}
+						}
+					},
+					error: function(error) {
+						alert("Error: " + error.code + " " + error.message);
+					}
+				});
+			}
+			$(document).ready(function() {
+				setInterval(function() {
+					//QueryData();
+					CheckNewItem();
+				}, 5000);
+			});
+		</script>
+	</body>
+
+</html>

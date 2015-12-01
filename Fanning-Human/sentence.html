@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Look at these Sentence</title>
+		<meta name="description" content="Sign Up Sheet">
+		<meta name="viewport" content="width=device-width">
+		<!--	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/styles.css">-->
+
+		<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="js/parse-latest.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	</head>
+
+	<body>
+		<div style="margin-left: 10%; margin-right: 10%;">
+			<h3>Total Sentence: <span class="label label-default" id="totalNumber">Null</span></h3>
+
+			<table class="table table-bordered table-hover" id="signUpTable">
+				<tr>
+					<td>Number</td>
+					<td>Word</td>
+					<td>Actions</td>
+				</tr>
+			</table>
+		</div>
+		<script>
+			Parse.initialize("NEoej6XqVoZUX0yHswIjwBtX3eWre9NBfjjJETrQ", "j2spCoWNrjS1XCD2aknH7Uo7QnTG7ijQTZfg0xkP");
+			var Sentence = Parse.Object.extend("Sentence");
+			var query = new Parse.Query(Sentence);
+			 //query.equalTo("playerName", "Dan Stemkoski");
+			function CreateRow(number, rowsentence, objectId) {
+				var table = document.getElementById("signUpTable");
+				var row = table.insertRow(number);
+				var cell = row.insertCell(0);
+				cell.innerHTML = number;
+				cell = row.insertCell(1);
+				cell.innerHTML = rowsentence;
+				cell = row.insertCell(2);
+				cell.innerHTML = "<button type='button' class='btn btn-danger' onclick=\"destoryObject('" + objectId.toString() + "')\">Delete</button>";
+			}
+
+			function CheckRow(number, resultlength) {
+				for (var i = resultlength + 1; i < document.getElementById("signUpTable").rows.length; i++) {
+					document.getElementById("signUpTable").deleteRow(i);
+				}
+				/*if ((document.getElementById("signUpTable").rows[number].cells.item(0).innerHTML==number)&(document.getElementById("signUpTable").rows.length>=resultlength+2)){
+				     document.getElementById("signUpTable").deleteRow(number);
+				 }*/
+			}
+
+			function CheckNewItem() {
+				query.find({
+					success: function(results) {
+						if (document.getElementById("totalNumber").innerHTML != results.length) {
+							oldlength = document.getElementById("totalNumber").innerHTML;
+							document.getElementById("totalNumber").innerHTML = results.length;
+							for (var i = oldlength - 1; i < results.length; i++) {
+								var object = results[i];
+								CreateRow(i + 1, object.get('word'));
+								CheckRow(i, results.length);
+							}
+						}
+					},
+					error: function(error) {
+						alert("Error: " + error.code + " " + error.message);
+					}
+				});
+			}
+
+			function QueryData() {
+				query.find({
+					success: function(results) {
+						$(".total").show();
+						document.getElementById("totalNumber").innerHTML = results.length;
+						//alert("Successfully retrieved " + results.length + " sign up people.");
+						// Do something with the returned Parse.Object values
+						for (var i = 0; i < results.length; i++) {
+							//alert(document.getElementById("signUpTable").rows[i].cells.item(0).innerHTML);
+							var object = results[i];
+							CreateRow(i + 1, object.get('word'), object.id);
+							//CheckRow(i+1,results.length);
+						}
+					},
+					error: function(error) {
+						alert("Error: " + error.code + " " + error.message);
+					}
+				});
+			}
+
+			function destoryObject(myObjectId) {
+				query.get(myObjectId, {
+					success: function(object) {
+						object.destroy({
+							success: function(object) {
+								location.reload();
+							},
+							error: function(object, error) { // The delete failed.
+								// error is a Parse.Error with an error code and message.
+							}
+						});
+					},
+					error: function(object, error) {
+						alert("Error: " + error.code + " " + error.message + "ID=" + myObjectId);
+					}
+				});
+			}
+			$(document).ready(function() {
+				QueryData();
+				setInterval(function() {
+					//QueryData();
+					CheckNewItem();
+				}, 5000);
+			});
+		</script>
+	</body>
+
+</html>

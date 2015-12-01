@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Youth Leadership - Fanning Registration Page</title>
+		<meta name="description" content="Registration Page">
+		<meta name="viewport" content="width=device-width">
+
+		<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="js/parse-latest.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	</head>
+
+	<body>
+		<div id="main">
+			<h1>Fanning Registration </h1>
+
+			<form id="SignUpForm" method="post">
+				<div class="form-group">
+					<label for="username">Username:</label>
+					<input type="text" class="form-control" id="username" placeholder="myusername">
+				</div>
+				<div class="form-group">
+					<label for="password">Password:</label>
+					<input type="password" class="form-control" id="password" placeholder="****">
+				</div>
+				<div class="form-group">
+					<label for="emailInput">Email address</label>
+					<input type="email" class="form-control" id="emailInput" placeholder="username@ugacscf.org">
+				</div>
+				<button type="submit" id="signUpButton" class="btn btn-default">Register</button>
+			</form>
+
+			<div style="display:none" class="error">
+				Looks like there was a problem with register. Try again. If this occur again, please email <a href="mailto:jimmy.lin@fanning.uga.edu">jimmy.lin@fanning.uga.edu</a>
+			</div>
+
+			<div style="display:none" id="successbox" class="success">
+				<p>Congratulation! You successfully registered.</p>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			
+			
+			Parse.initialize("IgZBiGwhxqw3BNtyFrRVIb2JmYIvw0UdjnMIeSkm", "ry0ri2o12JePWn5pktEhighV4ZsK7C7mgelHKUDc");
+			$('#SignUpForm').submit(function(event) {
+				event.preventDefault();
+				SubmitParse();
+				return false;
+			});
+
+			function SubmitParse() {
+				var inputusername = document.getElementById("username").value;
+				var inputpassword = document.getElementById("password").value;
+				var emailInput = document.getElementById("emailInput").value;
+				var user = new Parse.User();
+				user.set("username", inputusername);
+				user.set("password", inputpassword);
+				user.set("email", emailInput);
+				user.set("gameScore",0);
+				user.set("badges",0);
+				// other fields can be set just like with Parse.Object
+				//user.set("phone", "415-392-0202");
+				user.signUp(null, {
+					success: function(user) {
+						alert("Success! You will be redirect to main page.");
+						window.location.replace("index.html");
+					},
+					error: function(user, error) {
+						// Show the error message somewhere and let the user try again.
+						alert("Error: " + error.code + " " + error.message);
+					}
+				});
+			};
+		</script>
+	</body>
+
+</html>
