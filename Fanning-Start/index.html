@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Start Screen</title>
+		<meta name="description" content="Submit Word">
+		<meta name="viewport" content="width=device-width">
+		<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	</head>
+	<style type="text/css">
+		video {
+			width: 100%;
+			max-width: 800px;
+			height: auto;
+		}
+	</style>
+
+	<body>
+
+		<div style="text-align:center; width=device-width; margin-left: 5%; margin-right: 5%;">
+			<video id="video" width="1920" height="1080" poster="img/start_screen.png" onclick="playVideo()">
+				<source src="video/movie.mp4" type="video/mp4"> Your browser does not support HTML5 video.
+			</video>
+
+		</div>
+
+		<script>
+			function playVideo() {
+				var video = document.getElementById('video');
+				video.play();
+				video.addEventListener('ended', function() {
+					window.location = 'http://www.google.com';
+				});
+			}
+		</script>
+	</body>
+
+</html>
